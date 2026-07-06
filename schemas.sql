@@ -4,6 +4,7 @@ SELECT * FROM cidadao;
 SELECT * FROM gestor;
 SELECT * FROM categoria;
 SELECT * FROM bairro;
+SELECT * FROM relato;
 
 CREATE TABLE cidadao (
 	id SERIAL PRIMARY KEY NOT NULL,
