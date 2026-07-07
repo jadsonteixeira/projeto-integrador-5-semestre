@@ -16,7 +16,6 @@ SELECT * FROM vw_relatorios_por_bairro;
 SELECT * FROM vw_cidadaos;
 SELECT * FROM vw_gestores;
 
-
 CREATE TABLE cidadao (
 	id SERIAL PRIMARY KEY NOT NULL,
 	nome VARCHAR(100) NOT NULL,
@@ -114,6 +113,70 @@ CREATE TABLE relato_foto(
 		FOREIGN KEY(relato_id)
 		REFERENCES relato(id)
 		ON DELETE CASCADE
+);
+
+----- INSERT PARA TESTES E APRESENTAÇÃO -----
+-- Cidadãos
+INSERT INTO cidadao (nome, username, email, senha, telefone) VALUES
+('Jadson Teixeira', 'jadson', 'jadson@email.com', 'senha123', '84999990001'),
+('Davi Silva', 'davi', 'davi@email.com', 'senha123', '84999990002');
+
+-- Gestor
+INSERT INTO gestor (nome, username, email, senha) VALUES
+('Luana Gomes', 'luana', 'luana@email.com', 'senha123');
+
+-- Categorias
+INSERT INTO categoria (nome, descricao) VALUES
+('Buracos', 'Problemas relacionados a buracos nas ruas e vias públicas'),
+('Energia', 'Problemas relacionados à falta de energia elétrica'),
+('Água', 'Problemas relacionados a vazamentos ou falta de água');
+
+-- Bairros
+INSERT INTO bairro (nome) VALUES
+('Centro'),
+('Santa Luzia'),
+('Frei Damião');
+
+-- Relatos
+INSERT INTO relato (foto_url, endereco, titulo, descricao, cidadao_id, bairro_id, categoria_id) VALUES
+(
+    'https://exemplo.com/fotos/buraco1.jpg',
+    'Rua Principal, próximo à padaria',
+    'Buraco grande na rua',
+    'Buraco enorme causando risco a pedestres e veículos.',
+    (SELECT id FROM cidadao WHERE username = 'jadson'),
+    (SELECT id FROM bairro WHERE nome = 'Centro'),
+    (SELECT id FROM categoria WHERE nome = 'Buracos')
+),
+(
+    'https://exemplo.com/fotos/energia1.jpg',
+    'Rua das Flores, em frente ao mercado',
+    'Falta de energia há 3 dias',
+    'Bairro inteiro sem energia elétrica desde segunda-feira.',
+    (SELECT id FROM cidadao WHERE username = 'davi'),
+    (SELECT id FROM bairro WHERE nome = 'Santa Luzia'),
+    (SELECT id FROM categoria WHERE nome = 'Energia')
+);
+
+-- Fotos dos relatos
+INSERT INTO relato_foto (imagem_url, public_id, ordem, relato_id) VALUES
+(
+    'https://exemplo.com/fotos/buraco1.jpg',
+    'buraco1_public_id',
+    1,
+    (SELECT id FROM relato WHERE titulo = 'Buraco grande na rua')
+),
+(
+    'https://exemplo.com/fotos/buraco1_detalhe.jpg',
+    'buraco1_detalhe_public_id',
+    2,
+    (SELECT id FROM relato WHERE titulo = 'Buraco grande na rua')
+),
+(
+    'https://exemplo.com/fotos/energia1.jpg',
+    'energia1_public_id',
+    1,
+    (SELECT id FROM relato WHERE titulo = 'Falta de energia há 3 dias')
 );
 
 -- ================================================== -- VIEWS-- ==================================================
