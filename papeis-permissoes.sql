@@ -1,0 +1,15 @@
+--- PAPÉIS E PERMISSÕES / ROLES ---
+CREATE ROLE gestor;
+GRANT SELECT, INSERT, UPDATE ON TABLE gestor TO gestor;
+GRANT SELECT, INSERT, UPDATE, DELETE ON bairro TO gestor;
+GRANT SELECT, INSERT, UPDATE, DELETE ON categoria TO gestor;
+GRANT SELECT, INSERT, UPDATE ON historico_relato TO gestor;
+GRANT SELECT, UPDATE ON relato TO gestor;
+
+CREATE ROLE cidadao;
+GRANT SELECT, INSERT, UPDATE, DELETE ON cidadao TO cidadao;
+GRANT SELECT, INSERT, UPDATE, DELETE ON relato TO cidadao;
+GRANT SELECT, INSERT, UPDATE, DELETE ON relato_foto TO cidadao;
+GRANT SELECT ON bairro TO cidadao;
+GRANT SELECT ON categoria TO cidadao;
+GRANT SELECT ON historico_status TO cidadao;
